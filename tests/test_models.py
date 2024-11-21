@@ -103,17 +103,16 @@ class TestProductModel(unittest.TestCase):
 
     def test_read_product(self):
         """It should read a product and return it"""
-        product = ProductFactory()         
+        product = ProductFactory()
         product.id = None
         product.create()
         self.assertIsNotNone(product.id)
-        # Fetch it back
         found_product = Product.find(product.id)
         self.assertEqual(found_product.id, product.id)
         self.assertEqual(found_product.name, product.name)
         self.assertEqual(found_product.description, product.description)
         self.assertEqual(found_product.price, product.price)
-    
+
     def test_update_product(self):
         """It should update a product"""
         product = ProductFactory()
@@ -126,7 +125,6 @@ class TestProductModel(unittest.TestCase):
         product.update()
         self.assertEqual(product.id, original_id)
         self.assertEqual(product.description, "test product")
-        
         products = Product.all()
         self.assertEqual(len(products), 1)
         self.assertEqual(products[0].id, original_id)
@@ -136,17 +134,17 @@ class TestProductModel(unittest.TestCase):
         """It should delete a product"""
         product = ProductFactory()
         product.create()
-        self.assertEqual(len(Product.all()), 1)        
+        self.assertEqual(len(Product.all()), 1)
         product.delete()
         self.assertEqual(len(Product.all()), 0)
 
     def test_list_all_products(self):
         """It should list all products"""
         products = Product.all()
-        self.assertEqual(products, [])        
+        self.assertEqual(products, [])
         for _ in range(2):
             product = ProductFactory()
-            product.create()        
+            product.create()
         products = Product.all()
         self.assertEqual(len(products), 2)
 
@@ -155,8 +153,8 @@ class TestProductModel(unittest.TestCase):
         products = ProductFactory.create_batch(4)
         for product in products:
             product.create()
-        name = products[0].name        
-        found = Product.find_by_name(name)        
+        name = products[0].name
+        found = Product.find_by_name(name)
         for product in found:
             self.assertEqual(product.name, name)
 
